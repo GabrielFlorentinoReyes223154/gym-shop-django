@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Gestión de Pedidos</h2>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Cliente</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for pedido in pedidos %}
+      <tr>
+        <td>{{ pedido.nombre }}</td>
+        <td>{{ pedido.creado|date:"d M Y H:i" }}</td>
+        <td>{{ pedido.get_estado_display }}</td>
+        <td>
+          <a href="{% url 'actualizar_pedido' pedido.id %}" class="btn btn-sm btn-warning">Actualizar</a>
+          {% if pedido.estado == 'entregado' %}
+            <a href="{% url 'eliminar_pedido' pedido.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

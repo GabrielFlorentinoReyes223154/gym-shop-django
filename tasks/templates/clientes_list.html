@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Gestión de Clientes</h2>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Pedidos</th>
+          <th>Es Admin</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for cliente in clientes %}
+        <tr>
+          <td>{{ cliente.username }}</td>
+          <td>{{ cliente.pedidos }}</td>
+          <td>{% if cliente.is_staff %}Sí{% else %}No{% endif %}</td>
+          <td>
+            <a href="{% url 'editar_cliente' cliente.id %}" class="btn btn-sm btn-warning">Editar</a>
+            <a href="{% url 'eliminar_cliente' cliente.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

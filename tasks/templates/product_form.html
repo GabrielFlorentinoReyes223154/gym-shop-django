@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="card p-4 shadow-sm">
+    <h2 class="mb-4">{% if form.instance.pk %}Editar Producto{% else %}Nuevo Producto{% endif %}</h2>
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label for="id_nombre" class="form-label">Nombre:</label>
+        <input type="text" name="nombre" id="id_nombre" class="form-control" value="{{ form.nombre.value|default_if_none:'' }}">
+      </div>
+
+      <div class="mb-3">
+        <label for="id_descripcion" class="form-label">Descripción:</label>
+        <textarea name="descripcion" id="id_descripcion" rows="4" class="form-control">{{ form.descripcion.value|default_if_none:'' }}</textarea>
+      </div>
+
+      <div class="mb-3">
+        <label for="id_precio" class="form-label">Precio:</label>
+        <input type="number" name="precio" step="0.01" id="id_precio" class="form-control" value="{{ form.precio.value|default_if_none:'' }}">
+      </div>
+
+      <div class="mb-3">
+        <label for="id_stock" class="form-label">Stock:</label>
+        <input type="number" name="stock" id="id_stock" class="form-control" value="{{ form.stock.value|default_if_none:'' }}">
+      </div>
+
+      <div class="mb-3">
+        <label for="id_categoria" class="form-label">Categoría:</label>
+        <select name="categoria" id="id_categoria" class="form-select">
+          <option value="">---------</option>
+          {% for categoria in form.fields.categoria.queryset %}
+            <option value="{{ categoria.id }}" {% if form.categoria.value == categoria.id|stringformat:"s" %}selected{% endif %}>{{ categoria.nombre }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="id_imagen" class="form-label">Imagen:</label>
+        <input type="file" name="imagen" id="id_imagen" class="form-control">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Guardar</button>
+      <a href="{% url 'products' %}" class="btn btn-secondary">Volver</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

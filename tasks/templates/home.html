@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+
+    {% if messages %}
+    <div class="mb-4">
+        {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <h1 class="mb-4 text-center">Catálogo de Productos</h1>
+    
+    {% if products %}
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for producto in products %}
+        <div class="col">
+            <div class="card h-100">
+                {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
+                {% else %}
+                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Sin imagen">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ producto.nombre }}</h5>
+                    <p class="card-text">{{ producto.descripcion|truncatewords:20 }}</p>
+                    <p class="card-text"><strong>Precio:</strong> ${{ producto.precio }}</p>
+                    <p class="card-text"><strong>Categoría:</strong> {{ producto.categoria.nombre }}</p>
+                </div>
+                <div class="card-footer text-center">
+                    {% if not user.is_staff %}
+                    <a href="{% url 'agregar_al_carrito' producto.id %}" class="btn btn-primary">Agregar al carrito</a>
+                    {% else %}
+                    <small class="text-muted">Eres administrador</small>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info text-center" role="alert">
+        No hay productos registrados aún.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Editar estado del pedido</h2>
+
+  <form method="post" class="mb-4">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="estado" class="form-label">Estado</label>
+      <select name="estado" id="estado" class="form-select">
+        <option value="pendiente" {% if pedido.estado == 'pendiente' %}selected{% endif %}>Pendiente</option>
+        <option value="procesando" {% if pedido.estado == 'procesando' %}selected{% endif %}>Procesando</option>
+        <option value="enviado" {% if pedido.estado == 'enviado' %}selected{% endif %}>Enviado</option>
+        <option value="entregado" {% if pedido.estado == 'entregado' %}selected{% endif %}>Entregado</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    <a href="{% url 'listar_pedidos' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+
+  <h4 class="mt-5">Productos en este pedido</h4>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio unitario</th>
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+      <tr>
+        <td>{{ item.producto.nombre }}</td>
+        <td>{{ item.cantidad }}</td>
+        <td>${{ item.precio_unitario }}</td>
+        <td>${{ item.subtotal }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

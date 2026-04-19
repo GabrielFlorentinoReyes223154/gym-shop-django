@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h3>Editar cliente: {{ cliente.username }}</h3>
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-check mb-3">
+      <input class="form-check-input" type="checkbox" name="is_staff" id="is_staff" {% if cliente.is_staff %}checked{% endif %}>
+      <label class="form-check-label" for="is_staff">
+        ¿Hacer administrador |Limitado a Productos,Categorias y Ordenes | ?
+      </label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="{% url 'listar_clientes' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

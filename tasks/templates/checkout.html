@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow-sm p-4">
+    <h2 class="mb-4 text-center">Finalizar compra</h2>
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="row mb-3">
+        <div class="col">
+          <label for="id_nombre" class="form-label">Nombre completo</label>
+          <input type="text" name="nombre" id="id_nombre" class="form-control" value="{{ form.nombre.value|default_if_none:'' }}">
+        </div>
+        <div class="col">
+          <label for="id_correo" class="form-label">Correo electrónico</label>
+          <input type="email" name="correo" id="id_correo" class="form-control" value="{{ form.correo.value|default_if_none:'' }}">
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="id_direccion" class="form-label">Dirección</label>
+        <textarea name="direccion" id="id_direccion" rows="3" class="form-control">{{ form.direccion.value|default_if_none:'' }}</textarea>
+      </div>
+
+      <div class="mb-3">
+        <label for="id_telefono" class="form-label">Teléfono</label>
+        <input type="text" name="telefono" id="id_telefono" class="form-control" value="{{ form.telefono.value|default_if_none:'' }}">
+      </div>
+
+      <div class="mb-3">
+        <label for="id_metodo_pago" class="form-label">Método de pago</label>
+        <select name="metodo_pago" id="id_metodo_pago" class="form-select">
+          <option value="tarjeta" {% if form.metodo_pago.value == 'tarjeta' %}selected{% endif %}>Tarjeta de Crédito/Débito</option>
+          <option value="transferencia" {% if form.metodo_pago.value == 'transferencia' %}selected{% endif %}>Transferencia Bancaria</option>
+          <option value="contra_entrega" {% if form.metodo_pago.value == 'contra_entrega' %}selected{% endif %}>Pago Contra Entrega</option>
+        </select>
+      </div>
+
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-success px-5">Confirmar pedido</button>
+        <a href="{% url 'ver_carrito' %}" class="btn btn-secondary ms-2">Volver al carrito</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

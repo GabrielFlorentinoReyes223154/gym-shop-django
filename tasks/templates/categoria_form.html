@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h2>{{ form.instance.pk|yesno:"Editar Categoría,Nueva Categoría" }}</h2>
+    
+    <form method="post">
+      {% csrf_token %}
+      
+      <div class="mb-3">
+        <label for="id_nombre" class="form-label">Nombre</label>
+        <input type="text" name="nombre" value="{{ form.nombre.value }}" id="id_nombre" class="form-control" required>
+      </div>
+      
+      <div class="mb-3">
+        <label for="id_descripcion" class="form-label">Descripción</label>
+        <textarea name="descripcion" id="id_descripcion" class="form-control" rows="4" required>{{ form.descripcion.value }}</textarea>
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+  </div>
+{% endblock %}
