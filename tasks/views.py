@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User, Permission
 from django.contrib.auth import login, logout, authenticate
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from .forms import add_product_form, CategoriaForm, CheckoutForm
 from .models import Product, Categoria, Carrito, ItemCarrito, Checkout,CheckoutItem
 from django.contrib.auth.models import User
@@ -18,6 +18,7 @@ def home(request):
         'products':products
     })
 
+'''
 def signup(request):
     if request.method == 'GET':
         return render(request, 'signup.html', {
@@ -39,6 +40,31 @@ def signup(request):
                     'form' : UserCreationForm,
                     'error': 'Las constrasenas no coinciden'
                 })
+'''
+
+def signup(request):
+    if request.method == 'GET':
+        return render(request, 'signup.html', {'form': UserCreationForm})
+    else:
+        if request.POST['password1'] == request.POST['password2']:
+            try:
+                with transaction.atomic():
+                    user = User.objects.create_user(
+                        username=request.POST['username'],
+                        password=request.POST['password1']
+                    )
+                user.save()
+                login(request, user)
+                return redirect('home')
+            except IntegrityError:
+                return render(request, 'signup.html', {
+                    'form': UserCreationForm,
+                    'error': 'Usuario ya existente'
+                })
+        return render(request, 'signup.html', {
+            'form': UserCreationForm,
+            'error': 'Las contraseñas no coinciden'
+        })
 
 def signout(request):
     logout(request)
