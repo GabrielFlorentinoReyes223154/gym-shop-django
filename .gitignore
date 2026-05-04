@@ -17,3 +17,7 @@ env/
 # IDE
 .vscode/
 .idea/
+
+# Coverage
+.coverage
+htmlcov/
