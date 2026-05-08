@@ -19,7 +19,7 @@
         <ul class="navbar-nav ms-auto">
             {% if user.is_staff %}
               <li class="nav-item">
-                  <a href="/" class="nav-link">Home</a>
+                  <a href="/" class="nav-link">Inicio</a>
               </li>
               <li class="nav-item">
                   <a href="/productos" class="nav-link">Productos</a>
@@ -34,11 +34,11 @@
                 <a href="/clientes" class="nav-link">Clientes</a>
             </li>
               <li class="nav-item">
-                  <a href="/logout" class="nav-link">Logout</a>
+                  <a href="/logout" class="nav-link">Salir</a>
               </li>
             {% elif user.is_authenticated %}
               <li class="nav-item">
-                <a href="/" class="nav-link">Home</a>
+                <a href="/" class="nav-link">Inicio</a>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -57,11 +57,11 @@
                 <a href="/mis-pedidos" class="nav-link">Mis pedidos</a>
               </li>
               <li class="nav-item">
-                  <a href="/logout" class="nav-link">Logout</a>
+                  <a href="/logout" class="nav-link">Salir</a>
               </li>
             {% else %}
               <li class="nav-item">
-                <a href="/" class="nav-link">Home</a>
+                <a href="/" class="nav-link">Inicio</a>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -74,10 +74,10 @@
                 </ul>
               </li>
               <li class="nav-item">
-                  <a href="/signup" class="nav-link">Signup</a>
+                  <a href="/signup" class="nav-link">Registrarse</a>
               </li>
               <li class="nav-item">
-                  <a href="/signin" class="nav-link">Signin</a>
+                  <a href="/signin" class="nav-link">Iniciar sesion</a>
               </li>
             {% endif %}
         </ul>
