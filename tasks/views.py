@@ -42,29 +42,57 @@ def signup(request):
                 })
 '''
 
+# def signup(request):
+#     if request.method == 'GET':
+#         return render(request, 'signup.html', {'form': UserCreationForm})
+#     else:
+#         if request.POST['password1'] == request.POST['password2']:
+#             try:
+#                 with transaction.atomic():
+#                     user = User.objects.create_user(
+#                         username=request.POST['username'],
+#                         password=request.POST['password1']
+#                     )
+#                 user.save()
+#                 login(request, user)
+#                 return redirect('home')
+#             except IntegrityError:
+#                 return render(request, 'signup.html', {
+#                     'form': UserCreationForm,
+#                     'error': 'Usuario ya existente'
+#                 })
+#         return render(request, 'signup.html', {
+#             'form': UserCreationForm,
+#             'error': 'Las contraseñas no coinciden'
+#         })
+
 def signup(request):
     if request.method == 'GET':
-        return render(request, 'signup.html', {'form': UserCreationForm})
+        return render(request, 'signup.html', {'form': UserCreationForm()})
     else:
-        if request.POST['password1'] == request.POST['password2']:
-            try:
-                with transaction.atomic():
-                    user = User.objects.create_user(
-                        username=request.POST['username'],
-                        password=request.POST['password1']
-                    )
-                user.save()
-                login(request, user)
-                return redirect('home')
-            except IntegrityError:
-                return render(request, 'signup.html', {
-                    'form': UserCreationForm,
-                    'error': 'Usuario ya existente'
-                })
-        return render(request, 'signup.html', {
-            'form': UserCreationForm,
-            'error': 'Las contraseñas no coinciden'
-        })
+        username = request.POST.get('username', '').strip()
+        password1 = request.POST.get('password1', '')
+        password2 = request.POST.get('password2', '')
+
+        if not username or not password1 or not password2:
+            return render(request, 'signup.html', {
+                'form': UserCreationForm(),
+                'error': 'Todos los campos son obligatorios'
+            })
+        if password1 != password2:
+            return render(request, 'signup.html', {
+                'form': UserCreationForm(),
+                'error': 'Las contraseñas no coinciden'
+            })
+        try:
+            user = User.objects.create_user(username=username, password=password1)
+            login(request, user)
+            return redirect('home')
+        except IntegrityError:
+            return render(request, 'signup.html', {
+                'form': UserCreationForm(),
+                'error': 'Usuario ya existente'
+            })
 
 def signout(request):
     logout(request)
