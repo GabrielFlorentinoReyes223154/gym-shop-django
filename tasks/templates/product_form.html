@@ -20,22 +20,27 @@
 
       <div class="mb-3">
         <label for="id_precio" class="form-label">Precio:</label>
-        <input type="number" name="precio" step="0.01" id="id_precio" class="form-control" value="{{ form.precio.value|default_if_none:'' }}">
+        <input type="number" name="precio" step="0.01" id="id_precio" class="form-control" 
+       value="{{ form.precio.value|default_if_none:'' }}" min="0">
       </div>
 
       <div class="mb-3">
         <label for="id_stock" class="form-label">Stock:</label>
-        <input type="number" name="stock" id="id_stock" class="form-control" value="{{ form.stock.value|default_if_none:'' }}">
+        <input type="number" name="stock" id="id_stock" class="form-control" 
+       value="{{ form.stock.value|default_if_none:'' }}" min="0">
       </div>
 
       <div class="mb-3">
         <label for="id_categoria" class="form-label">Categoría:</label>
-        <select name="categoria" id="id_categoria" class="form-select">
-          <option value="">---------</option>
-          {% for categoria in form.fields.categoria.queryset %}
-            <option value="{{ categoria.id }}" {% if form.categoria.value == categoria.id|stringformat:"s" %}selected{% endif %}>{{ categoria.nombre }}</option>
-          {% endfor %}
-        </select>
+          <select name="categoria" id="id_categoria" class="form-select">
+            <option value="">---------</option>
+            {% for categoria in form.fields.categoria.queryset %}
+              <option value="{{ categoria.id }}" 
+                {% if form.instance.categoria_id == categoria.id %}selected{% endif %}>
+                {{ categoria.nombre }}
+              </option>
+            {% endfor %}
+          </select>
       </div>
 
       <div class="mb-3">
