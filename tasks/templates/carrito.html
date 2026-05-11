@@ -4,6 +4,14 @@
   <div class="container mt-4">
     <h2>Mi Carrito</h2>
 
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
     {% if items %}
       <table class="table table-striped">
         <thead>
