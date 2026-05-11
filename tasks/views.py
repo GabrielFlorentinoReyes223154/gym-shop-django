@@ -251,6 +251,11 @@ def checkout_view(request):
     if request.method == 'POST':
         form = CheckoutForm(request.POST)
         if form.is_valid():
+            for item in carrito.items.all():
+                if item.cantidad > item.producto.stock:
+                    messages.error(request, f'Stock insuficiente para "{item.producto.nombre}". Disponible: {item.producto.stock}')
+                    return redirect('ver_carrito')
+
             checkout = form.save(commit=False)
             checkout.usuario = request.user
             checkout.save()
@@ -262,6 +267,8 @@ def checkout_view(request):
                     cantidad=item.cantidad,
                     precio_unitario=item.producto.precio
                 )
+                item.producto.stock -= item.cantidad
+                item.producto.save()
 
             carrito.activo = False
             carrito.save()
