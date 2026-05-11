@@ -16,7 +16,7 @@
     <tbody>
       {% for pedido in pedidos %}
       <tr>
-        <td>{{ pedido.nombre }}</td>
+        <td>{{ pedido.usuario.username }} <small class="text-muted">({{ pedido.nombre }})</small></td>
         <td>{{ pedido.creado|date:"d M Y H:i" }}</td>
         <td>{{ pedido.get_estado_display }}</td>
         <td>
